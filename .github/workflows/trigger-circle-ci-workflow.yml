@@ -10,7 +10,15 @@ jobs:
     name: Run workflow with all e2e tests
     runs-on: ubuntu-latest
     steps:
-      - name: Make request to CircleCI
+      - name: Compute branch data
+        run: |
+          export IS_PR_FROM_FORK=${{github.event.pull_request.head.repo.fork}}
+          echo $IS_PR_FROM_FORK
+      - name: Do things
+        run: |
+          echo "${{github.event.pull_request.head.repo.fork}}"
+          echo $IS_PR_FROM_FORK
+      - name: Make request to CircleCI (for non-forked-base PR)
         run: >
           curl --request POST
           --url https://circleci.com/api/v2/project/gh/storybookjs/storybook/pipeline
